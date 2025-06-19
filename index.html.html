@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Code Don - Sushant Kumar</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Creepster&family=Nosifer&family=Butcherman&family=Metal+Mania&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --blood-red: #8B0000;
+            --neon-red: #FF073A;
+            --dark-gold: #DAA520;
+            --electric-blue: #00BFFF;
+            --smoke-gray: #2C2C2C;
+            --deep-black: #0A0A0A;
+            --dirty-white: #F5F5DC;
+        }
+        
+        body {
+            font-family: 'Metal Mania', cursive;
+            background: linear-gradient(135deg, var(--deep-black) 0%, var(--smoke-gray) 50%, var(--deep-black) 100%);
+            color: var(--dirty-white);
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Animated Background */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        
+        .smoke-particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: smokeRise 8s infinite linear;
+        }
+        
+        @keyframes smokeRise {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 2px solid var(--blood-red);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        
+        .logo {
+            font-family: 'Nosifer', cursive;
+            font-size: 1.8rem;
+            color: var(--neon-red);
+            text-shadow: 0 0 10px var(--neon-red);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--dirty-white);
+            text-decoration: none;
+            font-size: 1.1rem;
+            position: relative;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--neon-red);
+            text-shadow: 0 0 5px var(--neon-red);
+        }
+        
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-red);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::before {
+            width: 100%;
+        }
+        
+        /* Sound Toggle */
+        .sound-toggle {
+            background: none;
+            border: 2px solid var(--neon-red);
+            color: var(--neon-red);
+            padding: 0.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .sound-toggle:hover {
+            background: var(--neon-red);
+            color: var(--deep-black);
+            box-shadow: 0 0 15px var(--neon-red);
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: radial-gradient(circle at center, rgba(139, 0, 0, 0.3) 0%, transparent 70%);
+        }
+        
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+        }
+        
+        .hero-title {
+            font-family: 'Creepster', cursive;
+            font-size: clamp(3rem, 8vw, 8rem);
+            color: var(--neon-red);
+            text-shadow: 
+                0 0 10px var(--neon-red),
+                0 0 20px var(--neon-red),
+                0 0 40px var(--neon-red);
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: glitchReveal 2s ease-out 0.5s forwards;
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            color: var(--dark-gold);
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: typewriter 3s steps(20) 2s forwards;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 3px solid var(--dark-gold);
+        }
+        
+        @keyframes glitchReveal {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) rotateX(90deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.1) rotateX(-10deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotateX(0deg);
+            }
+        }
+        
+        @keyframes typewriter {
+            0% {
+                width: 0;
+                opacity: 1;
+            }
+            100% {
+                width: 100%;
+                opacity: 1;
+            }
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, var(--blood-red), var(--neon-red));
+            color: var(--dirty-white);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: slideUp 1s ease-out 4s forwards;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 7, 58, 0.4);
+        }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        
+        @keyframes slideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Sections */
+        .section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-family: 'Butcherman', cursive;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--neon-red);
+            text-shadow: 0 0 10px var(--neon-red);
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--blood-red), var(--neon-red), var(--blood-red));
+        }
+        
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .about-image {
+            position: relative;
+        }
+        
+        .silhouette {
+            width: 100%;
+            max-width: 300px;
+            filter: drop-shadow(0 0 20px var(--neon-red));
+            transition: all 0.3s ease;
+        }
+        
+        .silhouette:hover {
+            filter: drop-shadow(0 0 30px var(--neon-red));
+            transform: scale(1.05);
+        }
+        
+        .about-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--dirty-white);
+        }
+        
+        .about-text p {
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateX(-50px);
+            animation: slideInLeft 1s ease-out forwards;
+        }
+        
+        .about-text p:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .about-text p:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes slideInLeft {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .project-card {
+            background: linear-gradient(135deg, rgba(44, 44, 44, 0.8), rgba(10, 10, 10, 0.9));
+            border: 2px solid var(--blood-red);
+            border-radius: 10px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            transform: perspective(1000px) rotateY(0deg);
+        }
+        
+        .project-card:hover {
+            transform: perspective(1000px) rotateY(10deg) scale(1.05);
+            box-shadow: 0 20px 40px rgba(255, 7, 58, 0.3);
+            border-color: var(--neon-red);
+        }
+        
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 7, 58, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s ease;
+            opacity: 0;
+        }
+        
+        .project-card:hover::before {
+            opacity: 1;
+            animation: shine 1s ease-in-out;
+        }
+        
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
+        }
+        
+        .project-title {
+            font-size: 1.5rem;
+            color: var(--dark-gold);
+            margin-bottom: 1rem;
+            font-family: 'Butcherman', cursive;
+        }
+        
+        .project-description {
+            color: var(--dirty-white);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tech-tag {
+            background: var(--blood-red);
+            color: var(--dirty-white);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            border: 1px solid var(--neon-red);
+        }
+        
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .project-link {
+            color: var(--neon-red);
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .project-link:hover {
+            color: var(--dark-gold);
+            text-shadow: 0 0 5px var(--dark-gold);
+        }
+        
+        /* Contact Section */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(44, 44, 44, 0.8), rgba(10, 10, 10, 0.9));
+            padding: 3rem;
+            border-radius: 15px;
+            border: 2px solid var(--blood-red);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contact-form::before {
+            content: '☠️ CONFIDENTIAL MESSAGE ☠️';
+            position: absolute;
+            top: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--neon-red);
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-shadow: 0 0 10px var(--neon-red);
+        }
+        
+        .form-group {
+            margin-bottom: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark-gold);
+            font-weight: bold;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(10, 10, 10, 0.8);
+            border: 2px solid var(--smoke-gray);
+            border-radius: 5px;
+            color: var(--dirty-white);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--neon-red);
+            box-shadow: 0 0 10px rgba(255, 7, 58, 0.3);
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(45deg, var(--blood-red), var(--neon-red));
+            color: var(--dirty-white);
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Metal Mania', cursive;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 7, 58, 0.4);
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--deep-black);
+            text-align: center;
+            padding: 2rem;
+            border-top: 2px solid var(--blood-red);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .social-link {
+            color: var(--neon-red);
+            font-size: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            color: var(--dark-gold);
+            transform: scale(1.2) rotate(15deg);
+            text-shadow: 0 0 15px currentColor;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .section {
+                padding: 3rem 1rem;
+            }
+        }
+        
+        /* Scroll Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Neon flickering effect */
+        .flicker {
+            animation: neonFlicker 2s infinite alternate;
+        }
+        
+        @keyframes neonFlicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% {
+                text-shadow: 
+                    0 0 5px var(--neon-red),
+                    0 0 10px var(--neon-red),
+                    0 0 15px var(--neon-red);
+            }
+            20%, 24%, 55% {
+                text-shadow: none;
+            }
+        }
+        
+        /* Sound button pulse animation */
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 7, 58, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(255, 7, 58, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 7, 58, 0);
+            }
+        }
+        
+        /* Notification animations */
+        @keyframes slideInRight {
+            0% {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOutRight {
+            0% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--deep-black);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--blood-red), var(--neon-red));
+            border-radius: 6px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(var(--neon-red), var(--dark-gold));
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="background-animation" id="backgroundAnimation"></div>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo flicker">CODE DON</div>
+            <ul class="nav-links">
+                <li><a href="#home"><i class="fas fa-skull"></i> Home</a></li>
+                <li><a href="#about"><i class="fas fa-user-secret"></i> About</a></li>
+                <li><a href="#projects"><i class="fas fa-code"></i> Projects</a></li>
+                <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
+            <button class="sound-toggle" id="soundToggle">
+                <i class="fas fa-volume-up"></i>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1 class="hero-title">SUSHANT KUMAR</h1>
+            <p class="hero-subtitle">The Code Don of the Digital Underworld</p>
+            <a href="#projects" class="cta-button">ENTER MY DOMAIN</a>
+        </div>
+    </section>
+    
+    <!-- About Section -->
+    <section class="section fade-in" id="about">
+        <h2 class="section-title">THE BOSS</h2>
+        <div class="about-content">
+            <div class="about-image">
+                <svg class="silhouette" viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M100 20C120 20 140 35 140 60V80C140 90 135 100 125 105L130 120H140V140H60V120H70L75 105C65 100 60 90 60 80V60C60 35 80 20 100 20Z" fill="url(#gangsterGradient)"/>
+                    <path d="M90 140V280H50V200H30V280H170V200H150V280H110V140H90Z" fill="url(#gangsterGradient)"/>
+                    <path d="M80 60C80 55 85 50 90 50S100 55 100 60S95 70 90 70S80 65 80 60Z" fill="#FF073A"/>
+                    <path d="M100 60C100 55 105 50 110 50S120 55 120 60S115 70 110 70S100 65 100 60Z" fill="#FF073A"/>
+                    <defs>
+                        <linearGradient id="gangsterGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#8B0000"/>
+                            <stop offset="100%" style="stop-color:#FF073A"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <div class="about-text">
+                <p>In the shadowy corners of the digital realm, where code meets chaos, I reign supreme. They call me the Code Don - a master of algorithms, a kingpin of development.</p>
+                <p>With a keyboard as my weapon and logic as my ammunition, I've built an empire of pixels and programs. Every line of code tells a story, every function serves a purpose in my digital syndicate.</p>
+                <p>From the darkest databases to the most complex architectures, I control it all. Welcome to my territory, where bugs fear to tread and clean code is the law.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Projects Section -->
+    <section class="section fade-in" id="projects">
+        <h2 class="section-title">THE OPERATIONS</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <h3 class="project-title">Shadow Banking System</h3>
+                <p class="project-description">A secure financial management system with military-grade encryption. Handles millions in transactions without leaving a trace.</p>
+                <div class="project-tech">
+                    <span class="tech-tag">React</span>
+                    <span class="tech-tag">Node.js</span>
+                    <span class="tech-tag">MongoDB</span>
+                    <span class="tech-tag">Encryption</span>
+                </div>
+                <div class="project-links">
+                    <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
+                    <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Live</a>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <h3 class="project-title">Underground Marketplace</h3>
+                <p class="project-description">An exclusive e-commerce platform with anonymous transactions and untraceable delivery systems.</p>
+                <div class="project-tech">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Django</span>
+                    <span class="tech-tag">PostgreSQL</span>
+                    <span class="tech-tag">Redis</span>
+                </div>
+                <div class="project-links">
+                    <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
+                    <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Live</a>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <h3 class="project-title">Territory Control Dashboard</h3>
+                <p class="project-description">Real-time analytics dashboard for monitoring operations across multiple locations with advanced data visualization.</p>
+                <div class="project-tech">
+                    <span class="tech-tag">Vue.js</span>
+                    <span class="tech-tag">D3.js</span>
+                    <span class="tech-tag">Express</span>
+                    <span class="tech-tag">Socket.io</span>
+                </div>
+                <div class="project-links">
+                    <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
+                    <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Live</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section class="section fade-in" id="contact">
+        <h2 class="section-title">SEND A MESSAGE</h2>
+        <form class="contact-form" id="contactForm">
+            <div class="form-group">
+                <label for="name">Code Name:</label>
+                <input type="text" id="name" name="name" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Secure Channel:</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Classified Information:</label>
+                <textarea id="message" name="message" rows="5" class="form-control" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">TRANSMIT MESSAGE</button>
+        </form>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="social-links">
+            <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+        </div>
+        <p>&copy; 2025 The Code Don - Sushant Kumar. All territories reserved.</p>
+    </footer>
+    
+    <!-- Audio Element -->
+    <audio id="ambientSound" loop>
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFhYWEhYuFhYSFhYuFhYSFhYuFhYSFhYuFhYSFhYuFhYSFhYuFhYSFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOFhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2FhYOGhY2" type="audio/wav">
+    </audio>
+    
+    <script>
+        // Global variables
+        let soundEnabled = false;
+        const ambientSound = document.getElementById('ambientSound');
+        
+        // Create animated background particles
+        function createSmokeParticles() {
+            const backgroundAnimation = document.getElementById('backgroundAnimation');
+            
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'smoke-particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = Math.random() * 10 + 5 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 5) + 's';
+                backgroundAnimation.appendChild(particle);
+            }
+        }
+        
+        // Sound toggle functionality
+        function toggleSound() {
+            const soundToggle = document.getElementById('soundToggle');
+            const icon = soundToggle.querySelector('i');
+            
+            if (soundEnabled) {
+                stopAmbientSound();
+                icon.className = 'fas fa-volume-mute';
+                soundToggle.style.borderColor = '#666';
+                soundToggle.style.color = '#666';
+                soundEnabled = false;
+            } else {
+                // Create gangster ringtone
+                createGangsterRingtone();
+                icon.className = 'fas fa-volume-up';
+                soundToggle.style.borderColor = 'var(--neon-red)';
+                soundToggle.style.color = 'var(--neon-red)';
+                soundToggle.style.animation = 'pulse 1s infinite';
+                soundEnabled = true;
+                
+                // Add pulsing animation while playing
+                soundToggle.style.boxShadow = '0 0 20px var(--neon-red)';
+                
+                // Show notification
+                showSoundNotification('🔊 GANGSTER RINGTONE ACTIVATED');
+            }
+        }
+        
+        // Show sound notification
+        function showSoundNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: linear-gradient(45deg, var(--blood-red), var(--neon-red));
+                color: var(--dirty-white);
+                padding: 1rem 2rem;
+                border-radius: 10px;
+                font-family: 'Metal Mania', cursive;
+                font-weight: bold;
+                z-index: 10000;
+                border: 2px solid var(--neon-red);
+                box-shadow: 0 0 20px rgba(255, 7, 58, 0.5);
+                animation: slideInRight 0.5s ease-out;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.5s ease-in';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.remove();
+                    }
+                }, 500);
+            }, 3000);
+        }
+        
+        // Create gangster ringtone using Web Audio API
+        function createGangsterRingtone() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Create multiple oscillators for rich sound
+                const oscillator1 = audioContext.createOscillator();
+                const oscillator2 = audioContext.createOscillator();
+                const oscillator3 = audioContext.createOscillator();
+                
+                const gainNode1 = audioContext.createGain();
+                const gainNode2 = audioContext.createGain();
+                const gainNode3 = audioContext.createGain();
+                const masterGain = audioContext.createGain();
+                
+                // Connect oscillators
+                oscillator1.connect(gainNode1);
+                oscillator2.connect(gainNode2);
+                oscillator3.connect(gainNode3);
+                
+                gainNode1.connect(masterGain);
+                gainNode2.connect(masterGain);
+                gainNode3.connect(masterGain);
+                masterGain.connect(audioContext.destination);
+                
+                // Set initial frequencies for dramatic effect
+                oscillator1.type = 'sawtooth';
+                oscillator2.type = 'triangle';
+                oscillator3.type = 'sine';
+                
+                masterGain.gain.setValueAtTime(0.3, audioContext.currentTime);
+                
+                // Create dramatic gangster ringtone melody
+                const now = audioContext.currentTime;
+                const notes = [
+                    { freq: 220, time: 0, duration: 0.3 },    // A3
+                    { freq: 246.94, time: 0.3, duration: 0.3 }, // B3
+                    { freq: 293.66, time: 0.6, duration: 0.6 }, // D4 (longer)
+                    { freq: 220, time: 1.4, duration: 0.2 },    // A3
+                    { freq: 246.94, time: 1.6, duration: 0.2 }, // B3
+                    { freq: 329.63, time: 1.8, duration: 0.8 }, // E4 (dramatic)
+                    { freq: 293.66, time: 2.8, duration: 0.4 }, // D4
+                    { freq: 220, time: 3.4, duration: 0.6 },    // A3 (final)
+                ];
+                
+                // Play the melody in a loop
+                function playMelody(startTime) {
+                    notes.forEach(note => {
+                        const noteTime = startTime + note.time;
+                        const endTime = noteTime + note.duration;
+                        
+                        // Main melody
+                        oscillator1.frequency.setValueAtTime(note.freq, noteTime);
+                        gainNode1.gain.setValueAtTime(0, noteTime);
+                        gainNode1.gain.linearRampToValueAtTime(0.4, noteTime + 0.05);
+                        gainNode1.gain.exponentialRampToValueAtTime(0.01, endTime);
+                        
+                        // Harmony (fifth above)
+                        oscillator2.frequency.setValueAtTime(note.freq * 1.5, noteTime);
+                        gainNode2.gain.setValueAtTime(0, noteTime);
+                        gainNode2.gain.linearRampToValueAtTime(0.2, noteTime + 0.05);
+                        gainNode2.gain.exponentialRampToValueAtTime(0.01, endTime);
+                        
+                        // Bass (octave below)
+                        oscillator3.frequency.setValueAtTime(note.freq * 0.5, noteTime);
+                        gainNode3.gain.setValueAtTime(0, noteTime);
+                        gainNode3.gain.linearRampToValueAtTime(0.3, noteTime + 0.05);
+                        gainNode3.gain.exponentialRampToValueAtTime(0.01, endTime);
+                    });
+                }
+                
+                // Play melody multiple times
+                for (let i = 0; i < 10; i++) {
+                    playMelody(now + i * 4);
+                }
+                
+                oscillator1.start(now);
+                oscillator2.start(now);
+                oscillator3.start(now);
+                
+                // Store references to stop later
+                window.currentOscillators = [oscillator1, oscillator2, oscillator3];
+                window.currentAudioContext = audioContext;
+                
+                // Add vibrato effect for more dramatic sound
+                const lfo = audioContext.createOscillator();
+                const lfoGain = audioContext.createGain();
+                
+                lfo.frequency.setValueAtTime(6, audioContext.currentTime);
+                lfoGain.gain.setValueAtTime(10, audioContext.currentTime);
+                
+                lfo.connect(lfoGain);
+                lfoGain.connect(masterGain.gain);
+                lfo.start(now);
+                
+                window.currentLFO = lfo;
+                
+            } catch (error) {
+                console.log('Web Audio API not supported');
+                // Fallback: create simple beep pattern
+                createSimpleRingtone();
+            }
+        }
+        
+        // Fallback simple ringtone
+        function createSimpleRingtone() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.type = 'square';
+            oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+            gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+            
+            // Create phone ring pattern
+            const now = audioContext.currentTime;
+            for (let i = 0; i < 20; i++) {
+                const time = now + i * 0.6;
+                gainNode.gain.setValueAtTime(0.2, time);
+                gainNode.gain.setValueAtTime(0, time + 0.2);
+                gainNode.gain.setValueAtTime(0.2, time + 0.3);
+                gainNode.gain.setValueAtTime(0, time + 0.5);
+            }
+            
+            oscillator.start();
+            window.currentOscillator = oscillator;
+            window.currentAudioContext = audioContext;
+        }
+        
+        // Stop ambient sound
+        function stopAmbientSound() {
+            if (window.currentOscillators) {
+                window.currentOscillators.forEach(osc => osc.stop());
+                window.currentOscillators = null;
+            }
+            if (window.currentOscillator) {
+                window.currentOscillator.stop();
+                window.currentOscillator = null;
+            }
+            if (window.currentLFO) {
+                window.currentLFO.stop();
+                window.currentLFO = null;
+            }
+            if (window.currentAudioContext) {
+                window.currentAudioContext.close();
+                window.currentAudioContext = null;
+            }
+            
+            // Reset button styling
+            const soundToggle = document.getElementById('soundToggle');
+            soundToggle.style.animation = '';
+            soundToggle.style.boxShadow = '';
+        }
+        
+        // Smooth scrolling for navigation links
+        function initSmoothScrolling() {
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    
+                    if (targetSection) {
+                        targetSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+        
+        // Scroll animations
+        function initScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+            
+            const fadeElements = document.querySelectorAll('.fade-in');
+            fadeElements.forEach(el => observer.observe(el));
+        }
+        
+        // Glitch effect for hero title
+        function addGlitchEffect() {
+            const heroTitle = document.querySelector('.hero-title');
+            
+            setInterval(() => {
+                if (Math.random() < 0.1) {
+                    heroTitle.style.transform = `translateX(${Math.random() * 4 - 2}px) translateY(${Math.random() * 4 - 2}px)`;
+                    heroTitle.style.textShadow = `
+                        ${Math.random() * 10 - 5}px ${Math.random() * 10 - 5}px 0 #ff073a,
+                        ${Math.random() * 10 - 5}px ${Math.random() * 10 - 5}px 0 #00bfff,
+                        0 0 10px var(--neon-red),
+                        0 0 20px var(--neon-red),
+                        0 0 40px var(--neon-red)
+                    `;
+                    
+                    setTimeout(() => {
+                        heroTitle.style.transform = '';
+                        heroTitle.style.textShadow = `
+                            0 0 10px var(--neon-red),
+                            0 0 20px var(--neon-red),
+                            0 0 40px var(--neon-red)
+                        `;
+                    }, 100);
+                }
+            }, 2000);
+        }
+        
+        // Parallax effect
+        function initParallaxEffect() {
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const heroContent = document.querySelector('.hero-content');
+                const backgroundAnimation = document.getElementById('backgroundAnimation');
+                
+                if (heroContent) {
+                    heroContent.style.transform = `translateY(${scrolled * 0.5}px)`;
+                }
+                
+                if (backgroundAnimation) {
+                    backgroundAnimation.style.transform = `translateY(${scrolled * 0.2}px)`;
+                }
+            });
+        }
+        
+        // Contact form handling
+        function initContactForm() {
+            const contactForm = document.getElementById('contactForm');
+            
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const formData = new FormData(contactForm);
+                const name = formData.get('name');
+                const email = formData.get('email');
+                const message = formData.get('message');
+                
+                // Simulate form submission
+                const submitBtn = contactForm.querySelector('.submit-btn');
+                const originalText = submitBtn.textContent;
+                
+                submitBtn.textContent = 'TRANSMITTING...';
+                submitBtn.disabled = true;
+                
+                setTimeout(() => {
+                    submitBtn.textContent = 'MESSAGE RECEIVED ✓';
+                    submitBtn.style.background = 'linear-gradient(45deg, #228B22, #32CD32)';
+                    
+                    setTimeout(() => {
+                        submitBtn.textContent = originalText;
+                        submitBtn.style.background = 'linear-gradient(45deg, var(--blood-red), var(--neon-red))';
+                        submitBtn.disabled = false;
+                        contactForm.reset();
+                    }, 2000);
+                }, 1500);
+            });
+        }
+        
+        // Cursor trail effect
+        function initCursorTrail() {
+            const trail = [];
+            const trailLength = 10;
+            
+            document.addEventListener('mousemove', (e) => {
+                trail.push({ x: e.clientX, y: e.clientY });
+                
+                if (trail.length > trailLength) {
+                    trail.shift();
+                }
+                
+                updateTrail();
+            });
+            
+            function updateTrail() {
+                const existingTrails = document.querySelectorAll('.cursor-trail');
+                existingTrails.forEach(el => el.remove());
+                
+                trail.forEach((point, index) => {
+                    const trailElement = document.createElement('div');
+                    trailElement.className = 'cursor-trail';
+                    trailElement.style.cssText = `
+                        position: fixed;
+                        left: ${point.x}px;
+                        top: ${point.y}px;
+                        width: ${(index + 1) * 2}px;
+                        height: ${(index + 1) * 2}px;
+                        background: radial-gradient(circle, rgba(255, 7, 58, ${(index + 1) / trailLength}) 0%, transparent 70%);
+                        border-radius: 50%;
+                        pointer-events: none;
+                        z-index: 9999;
+                        transform: translate(-50%, -50%);
+                    `;
+                    
+                    document.body.appendChild(trailElement);
+                    
+                    setTimeout(() => {
+                        if (trailElement.parentNode) {
+                            trailElement.remove();
+                        }
+                    }, 500);
+                });
+            }
+        }
+        
+        // Typing effect for project descriptions
+        function initTypingEffect() {
+            const projectCards = document.querySelectorAll('.project-card');
+            
+            projectCards.forEach(card => {
+                const description = card.querySelector('.project-description');
+                const originalText = description.textContent;
+                
+                card.addEventListener('mouseenter', () => {
+                    description.textContent = '';
+                    let i = 0;
+                    
+                    const typeInterval = setInterval(() => {
+                        description.textContent += originalText.charAt(i);
+                        i++;
+                        
+                        if (i >= originalText.length) {
+                            clearInterval(typeInterval);
+                        }
+                    }, 30);
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    description.textContent = originalText;
+                });
+            });
+        }
+        
+        // Initialize all functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            createSmokeParticles();
+            initSmoothScrolling();
+            initScrollAnimations();
+            initParallaxEffect();
+            initContactForm();
+            initCursorTrail();
+            initTypingEffect();
+            
+            // Add event listener for sound toggle
+            document.getElementById('soundToggle').addEventListener('click', toggleSound);
+            
+            // Add glitch effect after a delay
+            setTimeout(addGlitchEffect, 3000);
+            
+            // Add hover effects to social links
+            const socialLinks = document.querySelectorAll('.social-link');
+            socialLinks.forEach(link => {
+                link.addEventListener('mouseenter', () => {
+                    link.style.filter = `hue-rotate(${Math.random() * 360}deg)`;
+                });
+                
+                link.addEventListener('mouseleave', () => {
+                    link.style.filter = '';
+                });
+            });
+            
+            // Add random flicker to neon elements
+            const neonElements = document.querySelectorAll('.flicker');
+            neonElements.forEach(element => {
+                setInterval(() => {
+                    if (Math.random() < 0.05) {
+                        element.style.opacity = Math.random() * 0.5 + 0.5;
+                        setTimeout(() => {
+                            element.style.opacity = '';
+                        }, 100);
+                    }
+                }, 1000);
+            });
+        });
+        
+        // Cleanup function for when sound is disabled
+        window.addEventListener('beforeunload', () => {
+            if (soundEnabled) {
+                stopAmbientSound();
+            }
+        });
+        
+        // Console Easter Egg
+        console.log(`
+        ████████╗██╗  ██╗███████╗     ██████╗ ██████╗ ██████╗ ███████╗    ██████╗  ██████╗ ███╗   ██╗
+        ╚══██╔══╝██║  ██║██╔════╝    ██╔════╝██╔═══██╗██╔══██╗██╔════╝    ██╔══██╗██╔═══██╗████╗  ██║
+           ██║   ███████║█████╗      ██║     ██║   ██║██║  ██║█████╗      ██║  ██║██║   ██║██╔██╗ ██║
+           ██║   ██╔══██║██╔══╝      ██║     ██║   ██║██║  ██║██╔══╝      ██║  ██║██║   ██║██║╚██╗██║
+           ██║   ██║  ██║███████╗    ╚██████╗╚██████╔╝██████╔╝███████╗    ██████╔╝╚██████╔╝██║ ╚████║
+           ╚═╝   ╚═╝  ╚═╝╚══════╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝    ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝
+        
+        Welcome to the digital underworld. You've found the secret console.
+        Type 'unlock()' to reveal hidden features...
+        `);
+        
+        // Hidden console function
+        window.unlock = function() {
+            console.log('🔓 CLASSIFIED ACCESS GRANTED');
+            document.body.style.filter = 'hue-rotate(180deg)';
+            setTimeout(() => {
+                document.body.style.filter = '';
+            }, 5000);
+        };
+    </script>
